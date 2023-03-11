@@ -6,7 +6,7 @@ const fs = require("fs");
 router.get("/all", (req, res) => {
   const { limit } = req.query;
   console.log(limit);
-  fs.readFile("public/user.json", "utf8", (err, data) => {
+  fs.readFile("user.json", "utf8", (err, data) => {
     if (limit) {
       res.send(JSON.parse(data).slice(0, limit));
     } else {
@@ -15,7 +15,7 @@ router.get("/all", (req, res) => {
   });
 });
 router.get("/random", (req, res) => {
-  fs.readFile("public/user.json", "utf8", (err, data) => {
+  fs.readFile("user.json", "utf8", (err, data) => {
     const allUser = JSON.parse(data);
     const randomUser = allUser[Math.floor(Math.random() * allUser.length)];
     res.json(randomUser);
@@ -27,7 +27,7 @@ router.post("/save", (req, res) => {
   if (!id || !name || !gender || !contact || !address || !photoUrl) {
     res.send("pls provide the valid information");
   } else {
-    fs.readFile("public/user.json", "utf8", (err, data) => {
+    fs.readFile("user.json", "utf8", (err, data) => {
       const allUser = JSON.parse(data);
       allUser.push(req.body);
       console.log(allUser);
@@ -37,7 +37,7 @@ router.post("/save", (req, res) => {
 });
 
 router.patch('/update/:id', (req, res)=>{
-  fs.readFile("public/user.json", "utf8", (err, data) => {
+  fs.readFile("user.json", "utf8", (err, data) => {
     const ID = req.params.id
     const allUser = JSON.parse(data);
     const selectedUser = allUser.find(user => user.id === +ID)
@@ -51,7 +51,7 @@ router.patch('/update/:id', (req, res)=>{
 })
 
 router.delete('/delete/:id', (req, res)=>{
-  fs.readFile("public/user.json", "utf8", (err, data) => {
+  fs.readFile("user.json", "utf8", (err, data) => {
     const ID = req.params.id
     const allUser = JSON.parse(data);
     const selectedUsers = allUser.filter(user => user.id !== +ID)
